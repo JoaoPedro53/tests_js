@@ -14,10 +14,10 @@ while (op != 0) {
     create()
     break;
   case 3:
-    console.log("Delete")
+    delet()
     break;
   case 4:
-    console.log("Atulizar")
+    update()
     break;
   default:
     
@@ -25,11 +25,12 @@ while (op != 0) {
 }
 
 function create(){
-    name = readline.question("Qual o nome do anime? ");
-    eps = Number(readline.question("Quantos episodios tem? "));
-    temps = Number(readline.question("Quantas temporadas tem? "));
+    const name = readline.question("Qual o nome do anime? ");
+    const eps = readline.question("Quantos episodios tem? ");
+    const temps = readline.question("Quantas temporadas tem? ");
 
     const anime = {
+        id: Math.floor(Math.random() * 1000),
         name: name,
         eps: eps,
         temps: temps
@@ -41,8 +42,54 @@ function create(){
 
 function listAll(){
     animes.forEach((anime) => {
-    console.log(`Anime: ${anime.name}, eps: ${anime.eps}, temps: ${anime.temps}`);
+    console.log(`${anime.id} | ${anime.name}, eps: ${anime.eps}, temps: ${anime.temps}`);
 })
+}
+
+function delet(){
+  let id = Number(readline.question("Qual o id do anime que deseja deletar? "));
+  const indexAnimeToDelete = findById(id)
+
+  if(indexAnimeToDelete > -1){
+    animes.splice(indexAnimeToDelete, 1)
+  } else {
+    console.log("Anime not found!")
+  }
+    
+}
+
+function update(){
+  let id = Number(readline.question("Qual o id do anime que deseja atualizar? "));
+  const indexAnimeToUpdate = findById(id)
+
+  if(indexAnimeToUpdate > -1){
+
+    let newName = readline.question("Nome, vazio mantem o mesmo: ");
+    const eps = readline.question("Episodios, vazio mantem o mesmo: ");
+    const temps = readline.question("Temporadas, vazio mantem o mesmo: ");
+
+    newName = newName === "" ? animes[indexAnimeToUpdate].name : newName;
+
+    const newEps = eps === "" ? animes[indexAnimeToUpdate].eps : eps;
+    const newTemps = temps === "" ? animes[indexAnimeToUpdate].temps : temps;
+
+    const anime = {
+        id: animes[indexAnimeToUpdate].id,
+        name: newName,
+        eps: newEps,
+        temps: newTemps
+    }
+
+    animes[indexAnimeToUpdate] = anime;
+
+  } else {
+    console.log("Anime not found!")
+  }
+  
+}
+
+function findById(id){
+  return indexAnimeToDelete = animes.findIndex(anime => anime.id == id);
 }
 
 function menu() {
